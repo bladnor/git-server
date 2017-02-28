@@ -1,0 +1,33 @@
+= git-server
+
+A git server docker image inspired by:
+
+- link:https://github.com/unixtastic/git-ssh-server[git-ssh-server]
+- link:http://www.florentflament.com/blog/git-ssh-docker-container.html[git-ssh-docker container]
+- link:https://github.com/jkarlosb/git-server-docker[git-server-docker]
+
+== Basic Usage
+
+How to run the container on port 2222 with two volumes, keys volume for public keys and repos volume for git repositories:
+[source,bash]
+----
+$ docker run -d -p 2222:22 -v <directory-with-authorized_keys-file>:/home/git/.ssh -v <directory-with-git-repos>:/repos
+----
+
+How to check that container works. Make sure you have your public key in the authorized_keys file you mounted to /home/git/.ssh:
+[source,bash]
+----
+$ ssh git@<docker-server> -p 2222
+...
+Welcome to git-server
+You've successfully authenticated, but I do not provide interactive shell access.
+...
+----
+
+How to clone a repo
+[source,bash]
+----
+$ git clone ssh://git@<docker-server>:2222/repos/<repo>
+----
+
+
